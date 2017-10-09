@@ -32,10 +32,24 @@ def new_post():
     if request.method == 'POST':
         blog_title= request.form['title']
         blog_body = request.form['blog']
-        new_blog = Blog(blog_title, blog_body)
-        db.session.add(new_blog)
-        db.session.commit()
-        return redirect('/blog')
+
+        title_error=''
+        body_error=''
+
+        if len(blog_title) == 0:
+            blog_title=''
+            title_error='Blogs must have at least a 1 charachter in the title.'
+        if len(blog_body) == 0:
+            blog_body=''
+            body_error='Blogs must have at least 1 charachter in the body.'
+        if not title_error and not body_error:
+            new_blog = Blog(blog_title, blog_body)
+            db.session.add(new_blog)
+            db.session.commit()
+            return redirect('/blog')
+        else:
+            return render_template('newpost.html', blog_title=blog_title, title_error=title_error,
+        blog_body=blog_body, body_error=body_error)
     else:
         return render_template('newpost.html')
 

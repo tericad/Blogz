@@ -4,18 +4,36 @@
 
 <h1>New Blog</h1>
 <form method='post'>
-    <label>
-        Title:
-        <input type="text" name='title' value='{{blog_title}}' />
-        <span class='error'>{{title_error}}</span>
-    </label>
+    <table>
+    <tr>
+        <td>
+            <label>
+            Title:
+            </label>
+        </td>
+        <td>
+            <input type="text" name='title' value='{{blog_title}}' />
+            <span class='error'>{{title_error}}</span>
+        </td>
+    </tr>
     <br/>
-    <label>
-        Write Blog Post Below.
-        <textarea name='blog' value='{{blog_body}}'></textarea>
-        <span class='error'>{{body_error}}</span>
-    </label>
-    <input type="submit" value='Add Blog' />
+    <tr>
+        <td>
+            <label>
+            Write Blog Post Here:
+            </label>
+        </td>
+        <td>
+            <textarea rows='15' cols='40' name='blog'>{{blog_body}}</textarea>
+            <span class='error'>{{body_error}}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="submit" value='Add Blog' />
+        </td>
+    </tr>
+    </table>
 </form>
 
 

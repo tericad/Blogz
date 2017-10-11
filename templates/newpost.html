@@ -7,24 +7,28 @@
     <table>
     <tr>
         <td>
-            <label>
-            Title:
-            </label>
+            <label>Title:</label>
         </td>
+    </tr>
+    <tr>
         <td>
             <input type="text" name='title' value='{{blog_title}}' />
-            <span class='error'>{{title_error}}</span>
+        </td>
+        <td>
+        <span class='error'>{{title_error}}</span>
         </td>
     </tr>
     <br/>
     <tr>
         <td>
-            <label>
-            Write Blog Post Here:
-            </label>
+            <label>Write Blog Post Here:</label>
         </td>
+    </tr>
+    <tr>
         <td>
             <textarea rows='15' cols='40' name='blog'>{{blog_body}}</textarea>
+        </td>
+        <td>
             <span class='error'>{{body_error}}</span>
         </td>
     </tr>

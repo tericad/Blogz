@@ -54,8 +54,11 @@ def login():
             session['user'] = username
             flash("Logged in")
             return redirect('/newpost')
+        elif user and not check_pw_hash(password, user.password):
+            flash('User password is incorrect', 'error')
+            return render_template('login.html')
         else:
-            flash('User password incorrect, or user does not exist', 'error')
+            flash('User does not exist', 'error')
             return render_template('login.html')
 
     return render_template('login.html')
@@ -94,11 +97,11 @@ def signup():
                 session['user'] = username
                 return redirect('/newpost')
             else:
-                return render_template('login.html', username_error=username_error, 
+                return render_template('signup.html', username_error=username_error, 
                 password_error=password_error, verify_password_error=verify_password_error, username=username, 
                 password=password, verify_password=verify_password)
         else:
-            flash('Duplicate user. Log In or use a different email address.', 'error')
+            flash('Duplicate username. Log In or use a different username.', 'error')
             return render_template('signup.html')
     else:
         return render_template('signup.html')
@@ -117,8 +120,9 @@ def list_blogs():
         return render_template('entry.html', blog=blog)
     elif request.args.get('user') != None:
         user = request.args.get('user')
-        author = Blog.query.filter_by(owner_id=user).all()
-        return render_template('blog.html', title=author[0].owner.username,blogs=author)
+        blog = Blog.query.filter_by(owner_id=user).all()
+        author = User.query.filter_by(id=user).first()
+        return render_template('blog.html', title=author.username, blogs=blog)
     else:
         blogs = Blog.query.all()
         return render_template('blog.html',title="Blogs", blogs = blogs)
@@ -130,7 +134,6 @@ def new_post():
         owner = User.query.filter_by(username=session['user']).first()
         blog_title= request.form['title']
         blog_body = request.form['blog']
-        #ToDo: add owner_id = 
         blog_owner = owner.id
 
         title_error=''
@@ -143,7 +146,6 @@ def new_post():
             blog_body=''
             body_error='Blogs must have at least 1 charachter in the body.'
         if not title_error and not body_error:
-            #ToDO: add owner_id below
             new_blog = Blog(blog_title, blog_body, blog_owner)
             db.session.add(new_blog)
             db.session.commit()
